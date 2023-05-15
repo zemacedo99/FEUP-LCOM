@@ -1,0 +1,744 @@
+@lcflib.a:2019, lcf_start
+  proj_main_loop(argc, argv)
+> proj_main_loop(0, [NULL])
+  @proj.c:64, proj_main_loop
+    vg_init(SR5)
+  > vg_init(0x14c)
+    @videos.c:85, vg_init
+      vbe_get_mode_info(mode, &vbemodeinfo)
+    > vbe_get_mode_info(0x14c, addr: 0x860b220)
+    < vbe_get_mode_info(0x14c, addr: 0x860b220 [0xe0000000, 1152x864, 8:8:8 (32) <3.79688 MiB>]) -> (ret: 0)
+    @videos.c:110, vg_init
+      sys_privctl(SELF, SYS_PRIV_ADD_MEM, &mr)
+    > sys_privctl(SELF, SYS_PRIV_ADD_MEM, addr: 0xeffff680 [0xe0000000 - 0xe03cc000 <3.79688 MiB>])
+    < sys_privctl(SELF, SYS_PRIV_ADD_MEM, &mr) -> (ret: 0)
+    @videos.c:115, vg_init
+      vm_map_phys(SELF, (void *) mr.mr_base, vram_size)
+    < vm_map_phys(SELF, addr: 0xe0000000, 3.79688 MiB) -> (ret: 0xef62f000)
+    @videos.c:63, set_vbe_mode
+      sys_int86(&reg86)
+    > sys_int86(addr: 0xeffff688 [AX: 4f02, BX: 414c, CX: 0000, DX: 0000, ES: 0000, DI: 0000])
+    < sys_int86(addr: 0xeffff688 [AX: 004f, BX: 414c, CX: 0000, DX: 0000, ES: 0000, DI: 0000]) -> (ret: 0)
+  < vg_init(0x14c) -> (ret: 0xef62f000)
+  @proj.c:68, proj_main_loop
+    xpm_load(bg1, XPM_8_8_8_8, &img)
+  > xpm_load(addr: 0x839986c, XPM_8_8_8_8, addr: 0xeffff7a8)
+  < xpm_load(addr: 0x839986c, XPM_8_8_8_8, addr: 0xeffff7a8 [1152x864 : 3981312 bytes]) -> (ret: 0x8a09000)
+  @block.c:87, block_move
+    xpm_load(bg2, XPM_8_8_8_8, &img1)
+  > xpm_load(addr: 0x839aa80, XPM_8_8_8_8, addr: 0xeffff738)
+  < xpm_load(addr: 0x839aa80, XPM_8_8_8_8, addr: 0xeffff738 [1152x864 : 3981312 bytes]) -> (ret: 0x8df1000)
+  @mouse.c:98, write_mouse_command
+    sys_outb(STAT_REG, WRITE_BYTE_MOUSE)
+  > sys_outb(0x64, 0xd4 = 0b11010100)
+  @utils.c:24, util_sys_inb
+    sys_inb(port, &value32)
+  > sys_inb(0x64, addr: 0xefffb7d8)
+  < sys_inb(0x64, addr: 0xefffb7d8 [0x1c = 0b00011100])
+  @mouse.c:114, write_mouse_command
+    sys_outb(IN_BUF, command_argument)
+  > sys_outb(0x60, 0xf4 = 0b11110100)
+  @utils.c:24, util_sys_inb
+    sys_inb(port, &value32)
+  > sys_inb(0x60, addr: 0xefffb7d8)
+  < sys_inb(0x60, addr: 0xefffb7d8 [0xfa = 0b11111010])
+  @keyboard.c:16, keyboard_subscribe_int
+    sys_irqsetpolicy(keyboard_IRQ_num, IRQ_EXCLUSIVE | IRQ_REENABLE, &hook_id)
+  > sys_irqsetpolicy(1, 3, addr: 0x860a570 [1])
+  < sys_irqsetpolicy(1, 3, addr: 0x860a570 [10]) -> (ret: 0)
+  @block.c:129, block_move
+    timer_subscribe_int(&irq_set_timer)
+  > timer_subscribe_int(addr: 0xefffb8b3 [0])
+    @timer.c:86, timer_subscribe_int
+      sys_irqsetpolicy(TIMER0_IRQ, IRQ_REENABLE, &hook_id_timer)
+    > sys_irqsetpolicy(0, 1, addr: 0x86270d4 [0])
+    < sys_irqsetpolicy(0, 1, addr: 0x86270d4 [11]) -> (ret: 0)
+  < timer_subscribe_int(addr: 0xefffb8b3 [0]) -> (ret: 0)
+  @mouse.c:42, mouse_subscribe_int
+    sys_irqsetpolicy(MOUSE_IRQ_NUM, IRQ_EXCLUSIVE | IRQ_REENABLE, &hook_id_mouse)
+  > sys_irqsetpolicy(12, 3, addr: 0x860a574 [12])
+  < sys_irqsetpolicy(12, 3, addr: 0x860a574 [12]) -> (ret: 0)
+  @block.c:136, block_move
+    driver_receive(ANY, &msg, &ipc_status)
+  > driver_receive(ANY, addr: 0xefffb870, addr: 0xefffb8b4)
+  < driver_receive(<[HARDWARE: 0b0000000000000000000000000000000000000000000000000000000000000001]>)
+  @block.c:136, block_move
+    driver_receive(ANY, &msg, &ipc_status)
+  > driver_receive(ANY, addr: 0xefffb870, addr: 0xefffb8b4)
+  < driver_receive(<[HARDWARE: 0b0000000000000000000000000000000000000000000000000000000000000001]>)
+  @block.c:136, block_move
+    driver_receive(ANY, &msg, &ipc_status)
+  > driver_receive(ANY, addr: 0xefffb870, addr: 0xefffb8b4)
+  < driver_receive(<[HARDWARE: 0b0000000000000000000000000000000000000000000000000000000000000001]>)
+  @block.c:136, block_move
+    driver_receive(ANY, &msg, &ipc_status)
+  > driver_receive(ANY, addr: 0xefffb870, addr: 0xefffb8b4)
+  < driver_receive(<[HARDWARE: 0b0000000000000000000000000000000000000000000000000000000000000001]>)
+  @block.c:136, block_move
+    driver_receive(ANY, &msg, &ipc_status)
+  > driver_receive(ANY, addr: 0xefffb870, addr: 0xefffb8b4)
+  < driver_receive(<[HARDWARE: 0b0000000000000000000000000000000000000000000000000000000000000001]>)
+  @block.c:136, block_move
+    driver_receive(ANY, &msg, &ipc_status)
+  > driver_receive(ANY, addr: 0xefffb870, addr: 0xefffb8b4)
+  < driver_receive(<[HARDWARE: 0b0000000000000000000000000000000000000000000000000000000000000001]>)
+  @block.c:136, block_move
+    driver_receive(ANY, &msg, &ipc_status)
+  > driver_receive(ANY, addr: 0xefffb870, addr: 0xefffb8b4)
+  < driver_receive(<[HARDWARE: 0b0000000000000000000000000000000000000000000000000000000000000001]>)
+  @block.c:136, block_move
+    driver_receive(ANY, &msg, &ipc_status)
+  > driver_receive(ANY, addr: 0xefffb870, addr: 0xefffb8b4)
+  < driver_receive(<[HARDWARE: 0b0000000000000000000000000000000000000000000000000000000000000001]>)
+  @block.c:136, block_move
+    driver_receive(ANY, &msg, &ipc_status)
+  > driver_receive(ANY, addr: 0xefffb870, addr: 0xefffb8b4)
+  < driver_receive(<[HARDWARE: 0b0000000000000000000000000000000000000000000000000000000000000001]>)
+  @block.c:136, block_move
+    driver_receive(ANY, &msg, &ipc_status)
+  > driver_receive(ANY, addr: 0xefffb870, addr: 0xefffb8b4)
+  < driver_receive(<[HARDWARE: 0b0000000000000000000000000000000000000000000000000000000000000001]>)
+  @block.c:136, block_move
+    driver_receive(ANY, &msg, &ipc_status)
+  > driver_receive(ANY, addr: 0xefffb870, addr: 0xefffb8b4)
+  < driver_receive(<[HARDWARE: 0b0000000000000000000000000000000000000000000000000000000000000001]>)
+  @block.c:136, block_move
+    driver_receive(ANY, &msg, &ipc_status)
+  > driver_receive(ANY, addr: 0xefffb870, addr: 0xefffb8b4)
+  < driver_receive(<[HARDWARE: 0b0000000000000000000000000000000000000000000000000000000000000001]>)
+  @block.c:136, block_move
+    driver_receive(ANY, &msg, &ipc_status)
+  > driver_receive(ANY, addr: 0xefffb870, addr: 0xefffb8b4)
+  < driver_receive(<[HARDWARE: 0b0000000000000000000000000000000000000000000000000000000000000001]>)
+  @block.c:136, block_move
+    driver_receive(ANY, &msg, &ipc_status)
+  > driver_receive(ANY, addr: 0xefffb870, addr: 0xefffb8b4)
+  < driver_receive(<[HARDWARE: 0b0000000000000000000000000000000000000000000000000000000000000001]>)
+  @block.c:136, block_move
+    driver_receive(ANY, &msg, &ipc_status)
+  > driver_receive(ANY, addr: 0xefffb870, addr: 0xefffb8b4)
+  < driver_receive(<[HARDWARE: 0b0000000000000000000000000000000000000000000000000000000000000001]>)
+  @block.c:136, block_move
+    driver_receive(ANY, &msg, &ipc_status)
+  > driver_receive(ANY, addr: 0xefffb870, addr: 0xefffb8b4)
+  < driver_receive(<[HARDWARE: 0b0000000000000000000000000000000000000000000000000000000000000001]>)
+  @block.c:136, block_move
+    driver_receive(ANY, &msg, &ipc_status)
+  > driver_receive(ANY, addr: 0xefffb870, addr: 0xefffb8b4)
+  < driver_receive(<[HARDWARE: 0b0000000000000000000000000000000000000000000000000000000000000001]>)
+  @block.c:136, block_move
+    driver_receive(ANY, &msg, &ipc_status)
+  > driver_receive(ANY, addr: 0xefffb870, addr: 0xefffb8b4)
+  < driver_receive(<[HARDWARE: 0b0000000000000000000000000000000000000000000000000000000000000001]>)
+  @block.c:136, block_move
+    driver_receive(ANY, &msg, &ipc_status)
+  > driver_receive(ANY, addr: 0xefffb870, addr: 0xefffb8b4)
+  < driver_receive(<[HARDWARE: 0b0000000000000000000000000000000000000000000000000000000000000001]>)
+  @block.c:136, block_move
+    driver_receive(ANY, &msg, &ipc_status)
+  > driver_receive(ANY, addr: 0xefffb870, addr: 0xefffb8b4)
+  < driver_receive(<[HARDWARE: 0b0000000000000000000000000000000000000000000000000000000000000001]>)
+  @block.c:136, block_move
+    driver_receive(ANY, &msg, &ipc_status)
+  > driver_receive(ANY, addr: 0xefffb870, addr: 0xefffb8b4)
+  < driver_receive(<[HARDWARE: 0b0000000000000000000000000000000000000000000000000000000000000001]>)
+  @block.c:136, block_move
+    driver_receive(ANY, &msg, &ipc_status)
+  > driver_receive(ANY, addr: 0xefffb870, addr: 0xefffb8b4)
+  < driver_receive(<[HARDWARE: 0b0000000000000000000000000000000000000000000000000000000000000001]>)
+  @block.c:136, block_move
+    driver_receive(ANY, &msg, &ipc_status)
+  > driver_receive(ANY, addr: 0xefffb870, addr: 0xefffb8b4)
+  < driver_receive(<[HARDWARE: 0b0000000000000000000000000000000000000000000000000000000000000001]>)
+  @block.c:136, block_move
+    driver_receive(ANY, &msg, &ipc_status)
+  > driver_receive(ANY, addr: 0xefffb870, addr: 0xefffb8b4)
+  < driver_receive(<[HARDWARE: 0b0000000000000000000000000000000000000000000000000000000000000001]>)
+  @block.c:136, block_move
+    driver_receive(ANY, &msg, &ipc_status)
+  > driver_receive(ANY, addr: 0xefffb870, addr: 0xefffb8b4)
+  < driver_receive(<[HARDWARE: 0b0000000000000000000000000000000000000000000000000000000000000001]>)
+  @block.c:136, block_move
+    driver_receive(ANY, &msg, &ipc_status)
+  > driver_receive(ANY, addr: 0xefffb870, addr: 0xefffb8b4)
+  < driver_receive(<[HARDWARE: 0b0000000000000000000000000000000000000000000000000000000000000001]>)
+  @block.c:136, block_move
+    driver_receive(ANY, &msg, &ipc_status)
+  > driver_receive(ANY, addr: 0xefffb870, addr: 0xefffb8b4)
+  < driver_receive(<[HARDWARE: 0b0000000000000000000000000000000000000000000000000000000000000001]>)
+  @block.c:136, block_move
+    driver_receive(ANY, &msg, &ipc_status)
+  > driver_receive(ANY, addr: 0xefffb870, addr: 0xefffb8b4)
+  < driver_receive(<[HARDWARE: 0b0000000000000000000000000000000000000000000000000000000000000001]>)
+  @block.c:136, block_move
+    driver_receive(ANY, &msg, &ipc_status)
+  > driver_receive(ANY, addr: 0xefffb870, addr: 0xefffb8b4)
+  < driver_receive(<[HARDWARE: 0b0000000000000000000000000000000000000000000000000000000000000001]>)
+  @block.c:136, block_move
+    driver_receive(ANY, &msg, &ipc_status)
+  > driver_receive(ANY, addr: 0xefffb870, addr: 0xefffb8b4)
+  < driver_receive(<[HARDWARE: 0b0000000000000000000000000000000000000000000000000000000000000001]>)
+  @block.c:136, block_move
+    driver_receive(ANY, &msg, &ipc_status)
+  > driver_receive(ANY, addr: 0xefffb870, addr: 0xefffb8b4)
+  < driver_receive(<[HARDWARE: 0b0000000000000000000000000000000000000000000000000000000000000001]>)
+  @block.c:136, block_move
+    driver_receive(ANY, &msg, &ipc_status)
+  > driver_receive(ANY, addr: 0xefffb870, addr: 0xefffb8b4)
+  < driver_receive(<[HARDWARE: 0b0000000000000000000000000000000000000000000000000000000000000001]>)
+  @block.c:136, block_move
+    driver_receive(ANY, &msg, &ipc_status)
+  > driver_receive(ANY, addr: 0xefffb870, addr: 0xefffb8b4)
+  < driver_receive(<[HARDWARE: 0b0000000000000000000000000000000000000000000000000000000000000001]>)
+  @block.c:136, block_move
+    driver_receive(ANY, &msg, &ipc_status)
+  > driver_receive(ANY, addr: 0xefffb870, addr: 0xefffb8b4)
+  < driver_receive(<[HARDWARE: 0b0000000000000000000000000000000000000000000000000000000000000001]>)
+  @block.c:136, block_move
+    driver_receive(ANY, &msg, &ipc_status)
+  > driver_receive(ANY, addr: 0xefffb870, addr: 0xefffb8b4)
+  < driver_receive(<[HARDWARE: 0b0000000000000000000000000000000000000000000000000000000000000001]>)
+  @block.c:136, block_move
+    driver_receive(ANY, &msg, &ipc_status)
+  > driver_receive(ANY, addr: 0xefffb870, addr: 0xefffb8b4)
+  < driver_receive(<[HARDWARE: 0b0000000000000000000000000000000000000000000000000000000000000001]>)
+  @block.c:136, block_move
+    driver_receive(ANY, &msg, &ipc_status)
+  > driver_receive(ANY, addr: 0xefffb870, addr: 0xefffb8b4)
+  < driver_receive(<[HARDWARE: 0b0000000000000000000000000000000000000000000000000000000000000001]>)
+  @block.c:136, block_move
+    driver_receive(ANY, &msg, &ipc_status)
+  > driver_receive(ANY, addr: 0xefffb870, addr: 0xefffb8b4)
+  < driver_receive(<[HARDWARE: 0b0000000000000000000000000000000000000000000000000000000000000001]>)
+  @block.c:136, block_move
+    driver_receive(ANY, &msg, &ipc_status)
+  > driver_receive(ANY, addr: 0xefffb870, addr: 0xefffb8b4)
+  < driver_receive(<[HARDWARE: 0b0000000000000000000000000000000000000000000000000000000000000001]>)
+  @block.c:136, block_move
+    driver_receive(ANY, &msg, &ipc_status)
+  > driver_receive(ANY, addr: 0xefffb870, addr: 0xefffb8b4)
+  < driver_receive(<[HARDWARE: 0b0000000000000000000000000000000000000000000000000000000000000001]>)
+  @block.c:136, block_move
+    driver_receive(ANY, &msg, &ipc_status)
+  > driver_receive(ANY, addr: 0xefffb870, addr: 0xefffb8b4)
+  < driver_receive(<[HARDWARE: 0b0000000000000000000000000000000000000000000000000000000000000001]>)
+  @block.c:136, block_move
+    driver_receive(ANY, &msg, &ipc_status)
+  > driver_receive(ANY, addr: 0xefffb870, addr: 0xefffb8b4)
+  < driver_receive(<[HARDWARE: 0b0000000000000000000000000000000000000000000000000000000000000001]>)
+  @block.c:136, block_move
+    driver_receive(ANY, &msg, &ipc_status)
+  > driver_receive(ANY, addr: 0xefffb870, addr: 0xefffb8b4)
+  < driver_receive(<[HARDWARE: 0b0000000000000000000000000000000000000000000000000000000000000001]>)
+  @block.c:136, block_move
+    driver_receive(ANY, &msg, &ipc_status)
+  > driver_receive(ANY, addr: 0xefffb870, addr: 0xefffb8b4)
+  < driver_receive(<[HARDWARE: 0b0000000000000000000000000000000000000000000000000000000000000001]>)
+  @block.c:136, block_move
+    driver_receive(ANY, &msg, &ipc_status)
+  > driver_receive(ANY, addr: 0xefffb870, addr: 0xefffb8b4)
+  < driver_receive(<[HARDWARE: 0b0000000000000000000000000000000000000000000000000000000000000001]>)
+  @block.c:136, block_move
+    driver_receive(ANY, &msg, &ipc_status)
+  > driver_receive(ANY, addr: 0xefffb870, addr: 0xefffb8b4)
+  < driver_receive(<[HARDWARE: 0b0000000000000000000000000000000000000000000000000000000000000001]>)
+  @block.c:136, block_move
+    driver_receive(ANY, &msg, &ipc_status)
+  > driver_receive(ANY, addr: 0xefffb870, addr: 0xefffb8b4)
+  < driver_receive(<[HARDWARE: 0b0000000000000000000000000000000000000000000000000000000000000001]>)
+  @block.c:136, block_move
+    driver_receive(ANY, &msg, &ipc_status)
+  > driver_receive(ANY, addr: 0xefffb870, addr: 0xefffb8b4)
+  < driver_receive(<[HARDWARE: 0b0000000000000000000000000000000000000000000000000000000000000001]>)
+  @block.c:136, block_move
+    driver_receive(ANY, &msg, &ipc_status)
+  > driver_receive(ANY, addr: 0xefffb870, addr: 0xefffb8b4)
+  < driver_receive(<[HARDWARE: 0b0000000000000000000000000000000000000000000000000000000000000001]>)
+  @block.c:136, block_move
+    driver_receive(ANY, &msg, &ipc_status)
+  > driver_receive(ANY, addr: 0xefffb870, addr: 0xefffb8b4)
+  < driver_receive(<[HARDWARE: 0b0000000000000000000000000000000000000000000000000000000000000001]>)
+  @block.c:136, block_move
+    driver_receive(ANY, &msg, &ipc_status)
+  > driver_receive(ANY, addr: 0xefffb870, addr: 0xefffb8b4)
+  < driver_receive(<[HARDWARE: 0b0000000000000000000000000000000000000000000000000000000000000001]>)
+  @block.c:136, block_move
+    driver_receive(ANY, &msg, &ipc_status)
+  > driver_receive(ANY, addr: 0xefffb870, addr: 0xefffb8b4)
+  < driver_receive(<[HARDWARE: 0b0000000000000000000000000000000000000000000000000000000000000001]>)
+  @block.c:136, block_move
+    driver_receive(ANY, &msg, &ipc_status)
+  > driver_receive(ANY, addr: 0xefffb870, addr: 0xefffb8b4)
+  < driver_receive(<[HARDWARE: 0b0000000000000000000000000000000000000000000000000000000000000001]>)
+  @block.c:136, block_move
+    driver_receive(ANY, &msg, &ipc_status)
+  > driver_receive(ANY, addr: 0xefffb870, addr: 0xefffb8b4)
+  < driver_receive(<[HARDWARE: 0b0000000000000000000000000000000000000000000000000000000000000001]>)
+  @block.c:136, block_move
+    driver_receive(ANY, &msg, &ipc_status)
+  > driver_receive(ANY, addr: 0xefffb870, addr: 0xefffb8b4)
+  < driver_receive(<[HARDWARE: 0b0000000000000000000000000000000000000000000000000000000000000001]>)
+  @block.c:136, block_move
+    driver_receive(ANY, &msg, &ipc_status)
+  > driver_receive(ANY, addr: 0xefffb870, addr: 0xefffb8b4)
+  < driver_receive(<[HARDWARE: 0b0000000000000000000000000000000000000000000000000000000000000001]>)
+  @block.c:136, block_move
+    driver_receive(ANY, &msg, &ipc_status)
+  > driver_receive(ANY, addr: 0xefffb870, addr: 0xefffb8b4)
+  < driver_receive(<[HARDWARE: 0b0000000000000000000000000000000000000000000000000000000000000001]>)
+  @block.c:136, block_move
+    driver_receive(ANY, &msg, &ipc_status)
+  > driver_receive(ANY, addr: 0xefffb870, addr: 0xefffb8b4)
+  < driver_receive(<[HARDWARE: 0b0000000000000000000000000000000000000000000000000000000000000001]>)
+  @block.c:136, block_move
+    driver_receive(ANY, &msg, &ipc_status)
+  > driver_receive(ANY, addr: 0xefffb870, addr: 0xefffb8b4)
+  < driver_receive(<[HARDWARE: 0b0000000000000000000000000000000000000000000000000000000000000001]>)
+  @block.c:136, block_move
+    driver_receive(ANY, &msg, &ipc_status)
+  > driver_receive(ANY, addr: 0xefffb870, addr: 0xefffb8b4)
+  < driver_receive(<[HARDWARE: 0b0000000000000000000000000000000000000000000000000000000000000001]>)
+  @block.c:136, block_move
+    driver_receive(ANY, &msg, &ipc_status)
+  > driver_receive(ANY, addr: 0xefffb870, addr: 0xefffb8b4)
+  < driver_receive(<[HARDWARE: 0b0000000000000000000000000000000000000000000000000000000000000001]>)
+  @block.c:136, block_move
+    driver_receive(ANY, &msg, &ipc_status)
+  > driver_receive(ANY, addr: 0xefffb870, addr: 0xefffb8b4)
+  < driver_receive(<[HARDWARE: 0b0000000000000000000000000000000000000000000000000000000000000001]>)
+  @block.c:136, block_move
+    driver_receive(ANY, &msg, &ipc_status)
+  > driver_receive(ANY, addr: 0xefffb870, addr: 0xefffb8b4)
+  < driver_receive(<[HARDWARE: 0b0000000000000000000000000000000000000000000000000000000000000001]>)
+  @block.c:136, block_move
+    driver_receive(ANY, &msg, &ipc_status)
+  > driver_receive(ANY, addr: 0xefffb870, addr: 0xefffb8b4)
+  < driver_receive(<[HARDWARE: 0b0000000000000000000000000000000000000000000000000000000000000001]>)
+  @block.c:136, block_move
+    driver_receive(ANY, &msg, &ipc_status)
+  > driver_receive(ANY, addr: 0xefffb870, addr: 0xefffb8b4)
+  < driver_receive(<[HARDWARE: 0b0000000000000000000000000000000000000000000000000000000000000001]>)
+  @block.c:136, block_move
+    driver_receive(ANY, &msg, &ipc_status)
+  > driver_receive(ANY, addr: 0xefffb870, addr: 0xefffb8b4)
+  < driver_receive(<[HARDWARE: 0b0000000000000000000000000000000000000000000000000000000000000010]>)
+  @block.c:149, block_move
+    kbc_ih()
+    @utils.c:24, util_sys_inb
+      sys_inb(port, &value32)
+    > sys_inb(0x64, addr: 0xefffb74c)
+    < sys_inb(0x64, addr: 0xefffb74c [0x1d = 0b00011101])
+    @utils.c:24, util_sys_inb
+      sys_inb(port, &value32)
+    > sys_inb(0x60, addr: 0xefffb74c)
+    < sys_inb(0x60, addr: 0xefffb74c [0x1c = 0b00011100])
+  @block.c:136, block_move
+    driver_receive(ANY, &msg, &ipc_status)
+  > driver_receive(ANY, addr: 0xefffb870, addr: 0xefffb8b4)
+  < driver_receive(<[HARDWARE: 0b0000000000000000000000000000000000000000000000000000000000000001]>)
+  @block.c:276, block_move
+    timer_int_handler()
+  @block.c:136, block_move
+    driver_receive(ANY, &msg, &ipc_status)
+  > driver_receive(ANY, addr: 0xefffb870, addr: 0xefffb8b4)
+  < driver_receive(<[HARDWARE: 0b0000000000000000000000000000000000000000000000000000000000000001]>)
+  @block.c:276, block_move
+    timer_int_handler()
+  @block.c:136, block_move
+    driver_receive(ANY, &msg, &ipc_status)
+  > driver_receive(ANY, addr: 0xefffb870, addr: 0xefffb8b4)
+  < driver_receive(<[HARDWARE: 0b0000000000000000000000000000000000000000000000000000000000000011]>)
+  @block.c:149, block_move
+    kbc_ih()
+    @utils.c:24, util_sys_inb
+      sys_inb(port, &value32)
+    > sys_inb(0x64, addr: 0xefffb74c)
+    < sys_inb(0x64, addr: 0xefffb74c [0x1d = 0b00011101])
+    @utils.c:24, util_sys_inb
+      sys_inb(port, &value32)
+    > sys_inb(0x60, addr: 0xefffb74c)
+    < sys_inb(0x60, addr: 0xefffb74c [0x9c = 0b10011100])
+  @block.c:276, block_move
+    timer_int_handler()
+  @block.c:136, block_move
+    driver_receive(ANY, &msg, &ipc_status)
+  > driver_receive(ANY, addr: 0xefffb870, addr: 0xefffb8b4)
+  < driver_receive(<[HARDWARE: 0b0000000000000000000000000000000000000000000000000000000000000001]>)
+  @block.c:276, block_move
+    timer_int_handler()
+  @block.c:136, block_move
+    driver_receive(ANY, &msg, &ipc_status)
+  > driver_receive(ANY, addr: 0xefffb870, addr: 0xefffb8b4)
+  < driver_receive(<[HARDWARE: 0b0000000000000000000000000000000000000000000000000000000000000001]>)
+  @block.c:276, block_move
+    timer_int_handler()
+  @block.c:136, block_move
+    driver_receive(ANY, &msg, &ipc_status)
+  > driver_receive(ANY, addr: 0xefffb870, addr: 0xefffb8b4)
+  < driver_receive(<[HARDWARE: 0b0000000000000000000000000000000000000000000000000000000000000001]>)
+  @block.c:276, block_move
+    timer_int_handler()
+  @block.c:136, block_move
+    driver_receive(ANY, &msg, &ipc_status)
+  > driver_receive(ANY, addr: 0xefffb870, addr: 0xefffb8b4)
+  < driver_receive(<[HARDWARE: 0b0000000000000000000000000000000000000000000000000000000000000001]>)
+  @block.c:276, block_move
+    timer_int_handler()
+  @block.c:136, block_move
+    driver_receive(ANY, &msg, &ipc_status)
+  > driver_receive(ANY, addr: 0xefffb870, addr: 0xefffb8b4)
+  < driver_receive(<[HARDWARE: 0b0000000000000000000000000000000000000000000000000000000000000001]>)
+  @block.c:276, block_move
+    timer_int_handler()
+  @block.c:136, block_move
+    driver_receive(ANY, &msg, &ipc_status)
+  > driver_receive(ANY, addr: 0xefffb870, addr: 0xefffb8b4)
+  < driver_receive(<[HARDWARE: 0b0000000000000000000000000000000000000000000000000000000000000001]>)
+  @block.c:276, block_move
+    timer_int_handler()
+  @block.c:136, block_move
+    driver_receive(ANY, &msg, &ipc_status)
+  > driver_receive(ANY, addr: 0xefffb870, addr: 0xefffb8b4)
+  < driver_receive(<[HARDWARE: 0b0000000000000000000000000000000000000000000000000000000000000001]>)
+  @block.c:276, block_move
+    timer_int_handler()
+  @block.c:136, block_move
+    driver_receive(ANY, &msg, &ipc_status)
+  > driver_receive(ANY, addr: 0xefffb870, addr: 0xefffb8b4)
+  < driver_receive(<[HARDWARE: 0b0000000000000000000000000000000000000000000000000000000000000001]>)
+  @block.c:276, block_move
+    timer_int_handler()
+  @block.c:136, block_move
+    driver_receive(ANY, &msg, &ipc_status)
+  > driver_receive(ANY, addr: 0xefffb870, addr: 0xefffb8b4)
+  < driver_receive(<[HARDWARE: 0b0000000000000000000000000000000000000000000000000000000000000001]>)
+  @block.c:276, block_move
+    timer_int_handler()
+  @block.c:136, block_move
+    driver_receive(ANY, &msg, &ipc_status)
+  > driver_receive(ANY, addr: 0xefffb870, addr: 0xefffb8b4)
+  < driver_receive(<[HARDWARE: 0b0000000000000000000000000000000000000000000000000000000000000001]>)
+  @block.c:276, block_move
+    timer_int_handler()
+  @block.c:136, block_move
+    driver_receive(ANY, &msg, &ipc_status)
+  > driver_receive(ANY, addr: 0xefffb870, addr: 0xefffb8b4)
+  < driver_receive(<[HARDWARE: 0b0000000000000000000000000000000000000000000000000000000000000001]>)
+  @block.c:276, block_move
+    timer_int_handler()
+  @block.c:136, block_move
+    driver_receive(ANY, &msg, &ipc_status)
+  > driver_receive(ANY, addr: 0xefffb870, addr: 0xefffb8b4)
+  < driver_receive(<[HARDWARE: 0b0000000000000000000000000000000000000000000000000000000000000001]>)
+  @block.c:276, block_move
+    timer_int_handler()
+  @block.c:136, block_move
+    driver_receive(ANY, &msg, &ipc_status)
+  > driver_receive(ANY, addr: 0xefffb870, addr: 0xefffb8b4)
+  < driver_receive(<[HARDWARE: 0b0000000000000000000000000000000000000000000000000000000000000001]>)
+  @block.c:276, block_move
+    timer_int_handler()
+  @block.c:136, block_move
+    driver_receive(ANY, &msg, &ipc_status)
+  > driver_receive(ANY, addr: 0xefffb870, addr: 0xefffb8b4)
+  < driver_receive(<[HARDWARE: 0b0000000000000000000000000000000000000000000000000000000000000001]>)
+  @block.c:276, block_move
+    timer_int_handler()
+  @block.c:136, block_move
+    driver_receive(ANY, &msg, &ipc_status)
+  > driver_receive(ANY, addr: 0xefffb870, addr: 0xefffb8b4)
+  < driver_receive(<[HARDWARE: 0b0000000000000000000000000000000000000000000000000000000000000001]>)
+  @block.c:276, block_move
+    timer_int_handler()
+  @block.c:136, block_move
+    driver_receive(ANY, &msg, &ipc_status)
+  > driver_receive(ANY, addr: 0xefffb870, addr: 0xefffb8b4)
+  < driver_receive(<[HARDWARE: 0b0000000000000000000000000000000000000000000000000000000000000001]>)
+  @block.c:276, block_move
+    timer_int_handler()
+  @block.c:136, block_move
+    driver_receive(ANY, &msg, &ipc_status)
+  > driver_receive(ANY, addr: 0xefffb870, addr: 0xefffb8b4)
+  < driver_receive(<[HARDWARE: 0b0000000000000000000000000000000000000000000000000000000000000001]>)
+  @block.c:276, block_move
+    timer_int_handler()
+  @block.c:136, block_move
+    driver_receive(ANY, &msg, &ipc_status)
+  > driver_receive(ANY, addr: 0xefffb870, addr: 0xefffb8b4)
+  < driver_receive(<[HARDWARE: 0b0000000000000000000000000000000000000000000000000000000000000001]>)
+  @block.c:276, block_move
+    timer_int_handler()
+  @block.c:136, block_move
+    driver_receive(ANY, &msg, &ipc_status)
+  > driver_receive(ANY, addr: 0xefffb870, addr: 0xefffb8b4)
+  < driver_receive(<[HARDWARE: 0b0000000000000000000000000000000000000000000000000000000000000001]>)
+  @block.c:276, block_move
+    timer_int_handler()
+  @block.c:136, block_move
+    driver_receive(ANY, &msg, &ipc_status)
+  > driver_receive(ANY, addr: 0xefffb870, addr: 0xefffb8b4)
+  < driver_receive(<[HARDWARE: 0b0000000000000000000000000000000000000000000000000000000000000001]>)
+  @block.c:276, block_move
+    timer_int_handler()
+  @block.c:136, block_move
+    driver_receive(ANY, &msg, &ipc_status)
+  > driver_receive(ANY, addr: 0xefffb870, addr: 0xefffb8b4)
+  < driver_receive(<[HARDWARE: 0b0000000000000000000000000000000000000000000000000000000000000001]>)
+  @block.c:276, block_move
+    timer_int_handler()
+  @block.c:136, block_move
+    driver_receive(ANY, &msg, &ipc_status)
+  > driver_receive(ANY, addr: 0xefffb870, addr: 0xefffb8b4)
+  < driver_receive(<[HARDWARE: 0b0000000000000000000000000000000000000000000000000000000000000001]>)
+  @block.c:276, block_move
+    timer_int_handler()
+  @block.c:136, block_move
+    driver_receive(ANY, &msg, &ipc_status)
+  > driver_receive(ANY, addr: 0xefffb870, addr: 0xefffb8b4)
+  < driver_receive(<[HARDWARE: 0b0000000000000000000000000000000000000000000000000000000000000001]>)
+  @block.c:276, block_move
+    timer_int_handler()
+  @block.c:136, block_move
+    driver_receive(ANY, &msg, &ipc_status)
+  > driver_receive(ANY, addr: 0xefffb870, addr: 0xefffb8b4)
+  < driver_receive(<[HARDWARE: 0b0000000000000000000000000000000000000000000000000000000000000001]>)
+  @block.c:276, block_move
+    timer_int_handler()
+  @block.c:136, block_move
+    driver_receive(ANY, &msg, &ipc_status)
+  > driver_receive(ANY, addr: 0xefffb870, addr: 0xefffb8b4)
+  < driver_receive(<[HARDWARE: 0b0000000000000000000000000000000000000000000000000000000000000001]>)
+  @block.c:276, block_move
+    timer_int_handler()
+  @block.c:136, block_move
+    driver_receive(ANY, &msg, &ipc_status)
+  > driver_receive(ANY, addr: 0xefffb870, addr: 0xefffb8b4)
+  < driver_receive(<[HARDWARE: 0b0000000000000000000000000000000000000000000000000000000000000001]>)
+  @block.c:276, block_move
+    timer_int_handler()
+  @block.c:136, block_move
+    driver_receive(ANY, &msg, &ipc_status)
+  > driver_receive(ANY, addr: 0xefffb870, addr: 0xefffb8b4)
+  < driver_receive(<[HARDWARE: 0b0000000000000000000000000000000000000000000000000000000000000001]>)
+  @block.c:276, block_move
+    timer_int_handler()
+  @block.c:136, block_move
+    driver_receive(ANY, &msg, &ipc_status)
+  > driver_receive(ANY, addr: 0xefffb870, addr: 0xefffb8b4)
+  < driver_receive(<[HARDWARE: 0b0000000000000000000000000000000000000000000000000000000000000001]>)
+  @block.c:276, block_move
+    timer_int_handler()
+  @block.c:136, block_move
+    driver_receive(ANY, &msg, &ipc_status)
+  > driver_receive(ANY, addr: 0xefffb870, addr: 0xefffb8b4)
+  < driver_receive(<[HARDWARE: 0b0000000000000000000000000000000000000000000000000000000000000001]>)
+  @block.c:276, block_move
+    timer_int_handler()
+  @block.c:136, block_move
+    driver_receive(ANY, &msg, &ipc_status)
+  > driver_receive(ANY, addr: 0xefffb870, addr: 0xefffb8b4)
+  < driver_receive(<[HARDWARE: 0b0000000000000000000000000000000000000000000000000000000000000001]>)
+  @block.c:276, block_move
+    timer_int_handler()
+  @block.c:136, block_move
+    driver_receive(ANY, &msg, &ipc_status)
+  > driver_receive(ANY, addr: 0xefffb870, addr: 0xefffb8b4)
+  < driver_receive(<[HARDWARE: 0b0000000000000000000000000000000000000000000000000000000000000001]>)
+  @block.c:276, block_move
+    timer_int_handler()
+  @block.c:136, block_move
+    driver_receive(ANY, &msg, &ipc_status)
+  > driver_receive(ANY, addr: 0xefffb870, addr: 0xefffb8b4)
+  < driver_receive(<[HARDWARE: 0b0000000000000000000000000000000000000000000000000000000000000001]>)
+  @block.c:276, block_move
+    timer_int_handler()
+  @block.c:136, block_move
+    driver_receive(ANY, &msg, &ipc_status)
+  > driver_receive(ANY, addr: 0xefffb870, addr: 0xefffb8b4)
+  < driver_receive(<[HARDWARE: 0b0000000000000000000000000000000000000000000000000000000000000001]>)
+  @block.c:276, block_move
+    timer_int_handler()
+  @block.c:136, block_move
+    driver_receive(ANY, &msg, &ipc_status)
+  > driver_receive(ANY, addr: 0xefffb870, addr: 0xefffb8b4)
+  < driver_receive(<[HARDWARE: 0b0000000000000000000000000000000000000000000000000000000000000001]>)
+  @block.c:276, block_move
+    timer_int_handler()
+  @block.c:136, block_move
+    driver_receive(ANY, &msg, &ipc_status)
+  > driver_receive(ANY, addr: 0xefffb870, addr: 0xefffb8b4)
+  < driver_receive(<[HARDWARE: 0b0000000000000000000000000000000000000000000000000000000000000001]>)
+  @block.c:276, block_move
+    timer_int_handler()
+  @block.c:136, block_move
+    driver_receive(ANY, &msg, &ipc_status)
+  > driver_receive(ANY, addr: 0xefffb870, addr: 0xefffb8b4)
+  < driver_receive(<[HARDWARE: 0b0000000000000000000000000000000000000000000000000000000000000001]>)
+  @block.c:276, block_move
+    timer_int_handler()
+  @block.c:136, block_move
+    driver_receive(ANY, &msg, &ipc_status)
+  > driver_receive(ANY, addr: 0xefffb870, addr: 0xefffb8b4)
+  < driver_receive(<[HARDWARE: 0b0000000000000000000000000000000000000000000000000000000000000001]>)
+  @block.c:276, block_move
+    timer_int_handler()
+  @block.c:136, block_move
+    driver_receive(ANY, &msg, &ipc_status)
+  > driver_receive(ANY, addr: 0xefffb870, addr: 0xefffb8b4)
+  < driver_receive(<[HARDWARE: 0b0000000000000000000000000000000000000000000000000000000000000001]>)
+  @block.c:276, block_move
+    timer_int_handler()
+  @block.c:136, block_move
+    driver_receive(ANY, &msg, &ipc_status)
+  > driver_receive(ANY, addr: 0xefffb870, addr: 0xefffb8b4)
+  < driver_receive(<[HARDWARE: 0b0000000000000000000000000000000000000000000000000000000000000001]>)
+  @block.c:276, block_move
+    timer_int_handler()
+  @block.c:136, block_move
+    driver_receive(ANY, &msg, &ipc_status)
+  > driver_receive(ANY, addr: 0xefffb870, addr: 0xefffb8b4)
+  < driver_receive(<[HARDWARE: 0b0000000000000000000000000000000000000000000000000000000000000001]>)
+  @block.c:276, block_move
+    timer_int_handler()
+  @block.c:136, block_move
+    driver_receive(ANY, &msg, &ipc_status)
+  > driver_receive(ANY, addr: 0xefffb870, addr: 0xefffb8b4)
+  < driver_receive(<[HARDWARE: 0b0000000000000000000000000000000000000000000000000000000000000001]>)
+  @block.c:276, block_move
+    timer_int_handler()
+  @block.c:136, block_move
+    driver_receive(ANY, &msg, &ipc_status)
+  > driver_receive(ANY, addr: 0xefffb870, addr: 0xefffb8b4)
+  < driver_receive(<[HARDWARE: 0b0000000000000000000000000000000000000000000000000000000000000001]>)
+  @block.c:276, block_move
+    timer_int_handler()
+  @block.c:136, block_move
+    driver_receive(ANY, &msg, &ipc_status)
+  > driver_receive(ANY, addr: 0xefffb870, addr: 0xefffb8b4)
+  < driver_receive(<[HARDWARE: 0b0000000000000000000000000000000000000000000000000000000000000001]>)
+  @block.c:276, block_move
+    timer_int_handler()
+  @block.c:136, block_move
+    driver_receive(ANY, &msg, &ipc_status)
+  > driver_receive(ANY, addr: 0xefffb870, addr: 0xefffb8b4)
+  < driver_receive(<[HARDWARE: 0b0000000000000000000000000000000000000000000000000000000000000001]>)
+  @block.c:276, block_move
+    timer_int_handler()
+  @block.c:136, block_move
+    driver_receive(ANY, &msg, &ipc_status)
+  > driver_receive(ANY, addr: 0xefffb870, addr: 0xefffb8b4)
+  < driver_receive(<[HARDWARE: 0b0000000000000000000000000000000000000000000000000000000000000001]>)
+  @block.c:276, block_move
+    timer_int_handler()
+  @block.c:136, block_move
+    driver_receive(ANY, &msg, &ipc_status)
+  > driver_receive(ANY, addr: 0xefffb870, addr: 0xefffb8b4)
+  < driver_receive(<[HARDWARE: 0b0000000000000000000000000000000000000000000000000000000000000001]>)
+  @block.c:276, block_move
+    timer_int_handler()
+  @block.c:136, block_move
+    driver_receive(ANY, &msg, &ipc_status)
+  > driver_receive(ANY, addr: 0xefffb870, addr: 0xefffb8b4)
+  < driver_receive(<[HARDWARE: 0b0000000000000000000000000000000000000000000000000000000000000001]>)
+  @block.c:276, block_move
+    timer_int_handler()
+  @block.c:136, block_move
+    driver_receive(ANY, &msg, &ipc_status)
+  > driver_receive(ANY, addr: 0xefffb870, addr: 0xefffb8b4)
+  < driver_receive(<[HARDWARE: 0b0000000000000000000000000000000000000000000000000000000000000001]>)
+  @block.c:276, block_move
+    timer_int_handler()
+  @block.c:136, block_move
+    driver_receive(ANY, &msg, &ipc_status)
+  > driver_receive(ANY, addr: 0xefffb870, addr: 0xefffb8b4)
+  < driver_receive(<[HARDWARE: 0b0000000000000000000000000000000000000000000000000000000000000001]>)
+  @block.c:276, block_move
+    timer_int_handler()
+  @block.c:136, block_move
+    driver_receive(ANY, &msg, &ipc_status)
+  > driver_receive(ANY, addr: 0xefffb870, addr: 0xefffb8b4)
+  < driver_receive(<[HARDWARE: 0b0000000000000000000000000000000000000000000000000000000000000001]>)
+  @block.c:276, block_move
+    timer_int_handler()
+  @block.c:136, block_move
+    driver_receive(ANY, &msg, &ipc_status)
+  > driver_receive(ANY, addr: 0xefffb870, addr: 0xefffb8b4)
+  < driver_receive(<[HARDWARE: 0b0000000000000000000000000000000000000000000000000000000000000001]>)
+  @block.c:276, block_move
+    timer_int_handler()
+  @block.c:136, block_move
+    driver_receive(ANY, &msg, &ipc_status)
+  > driver_receive(ANY, addr: 0xefffb870, addr: 0xefffb8b4)
+  < driver_receive(<[HARDWARE: 0b0000000000000000000000000000000000000000000000000000000000000001]>)
+  @block.c:276, block_move
+    timer_int_handler()
+  @block.c:136, block_move
+    driver_receive(ANY, &msg, &ipc_status)
+  > driver_receive(ANY, addr: 0xefffb870, addr: 0xefffb8b4)
+  < driver_receive(<[HARDWARE: 0b0000000000000000000000000000000000000000000000000000000000000001]>)
+  @block.c:276, block_move
+    timer_int_handler()
+  @block.c:136, block_move
+    driver_receive(ANY, &msg, &ipc_status)
+  > driver_receive(ANY, addr: 0xefffb870, addr: 0xefffb8b4)
+  < driver_receive(<[HARDWARE: 0b0000000000000000000000000000000000000000000000000000000000000001]>)
+  @block.c:276, block_move
+    timer_int_handler()
+  @block.c:136, block_move
+    driver_receive(ANY, &msg, &ipc_status)
+  > driver_receive(ANY, addr: 0xefffb870, addr: 0xefffb8b4)
+  < driver_receive(<[HARDWARE: 0b0000000000000000000000000000000000000000000000000000000000000001]>)
+  @block.c:276, block_move
+    timer_int_handler()
+  @block.c:136, block_move
+    driver_receive(ANY, &msg, &ipc_status)
+  > driver_receive(ANY, addr: 0xefffb870, addr: 0xefffb8b4)
+  < driver_receive(<[HARDWARE: 0b0000000000000000000000000000000000000000000000000000000000000011]>)
+  @block.c:149, block_move
+    kbc_ih()
+    @utils.c:24, util_sys_inb
+      sys_inb(port, &value32)
+    > sys_inb(0x64, addr: 0xefffb74c)
+    < sys_inb(0x64, addr: 0xefffb74c [0x1d = 0b00011101])
+    @utils.c:24, util_sys_inb
+      sys_inb(port, &value32)
+    > sys_inb(0x60, addr: 0xefffb74c)
+    < sys_inb(0x60, addr: 0xefffb74c [0x39 = 0b00111001])
+  @keyboard.c:26, keyboard_unsubscribe_int
+    sys_irqrmpolicy(&hook_id)
+  > sys_irqrmpolicy(addr: 0x860a570 [10])
+  < sys_irqrmpolicy(addr: 0x860a570 [10]) -> (ret: 0)
+  @block.c:169, block_move
+    timer_unsubscribe_int()
+    @timer.c:97, timer_unsubscribe_int
+      sys_irqrmpolicy(&hook_id_timer)
+    > sys_irqrmpolicy(addr: 0x86270d4 [11])
+    < sys_irqrmpolicy(addr: 0x86270d4 [11]) -> (ret: 0)
+  @mouse.c:51, mouse_unsubscribe_int
+    sys_irqrmpolicy(&hook_id_mouse)
+  > sys_irqrmpolicy(addr: 0x860a574 [12])
+  < sys_irqrmpolicy(addr: 0x860a574 [12]) -> (ret: 0)
+  @mouse.c:98, write_mouse_command
+    sys_outb(STAT_REG, WRITE_BYTE_MOUSE)
+  > sys_outb(0x64, 0xd4 = 0b11010100)
+  @utils.c:24, util_sys_inb
+    sys_inb(port, &value32)
+  > sys_inb(0x64, addr: 0xefffb7d8)
+  < sys_inb(0x64, addr: 0xefffb7d8 [0x1c = 0b00011100])
+  @mouse.c:114, write_mouse_command
+    sys_outb(IN_BUF, command_argument)
+  > sys_outb(0x60, 0xf5 = 0b11110101)
+  @utils.c:24, util_sys_inb
+    sys_inb(port, &value32)
+  > sys_inb(0x60, addr: 0xefffb7d8)
+  < sys_inb(0x60, addr: 0xefffb7d8 [0xfa = 0b11111010])
+  @proj.c:81, proj_main_loop
+    vg_exit()
+  < vg_exit() -> (ret: 0)
+  @proj.c:87, proj_main_loop
+    printf("SCORE: ")
+    "SCORE: "
+  @proj.c:88, proj_main_loop
+    printf("%d\n",score)
+    "0"
+< proj_main_loop(0, [NULL]) -> (ret: 0)

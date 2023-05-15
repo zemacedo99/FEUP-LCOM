@@ -1,0 +1,54 @@
+Exportar repositorio para RedMine:
+svn import --username up201705226 lab2 https://svn.fe.up.pt/repos/lcom1920-t1g08/lab2  -m "Imported lab0/"
+
+Criar uma Working Copy:
+svn checkout --username up201705226 https://svn.fe.up.pt/repos/lcom1920-t1g08/lab4 ./lab4 --force 
+
+Apagar ficheiro da WC:
+svn delete hello
+
+Reverter acao:
+svn revert hello
+
+Fazer commit para o repositorio:
+svn commit -m "Removed executable copied by svn import" 
+
+Atual WC:
+pwd
+
+Ver status:
+svn status
+
+Ver historico:
+svn log
+
+Apagar WC:
+rm -r lab0
+
+Listar:
+ls -la
+
+Sair: 
+poweroff
+
+Compilar:
+minix$ make
+
+Limpar executavel:
+minix$ make clean
+
+Update do .d file:
+minix$ make depend
+
+Para LCOM, para compilar, é recomendado:
+minix$ make clean
+minix$ make
+
+Run the Project:
+minix$ lcom_run lab2
+
+Parar o Run:
+minix$ lcom_stop lab2
+
+
+
